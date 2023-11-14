@@ -1,0 +1,190 @@
+Insert.html
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Insert title here</title>
+</head>
+<body>
+<form action="./InsertData" method="post">
+<table> 
+<tr><td>Enter Account Number:</td> 
+<td><input type="text" name="accno"/></td>
+</tr>
+<tr><td>Enter Title:</td> 
+<td><input type="text" name="title"/></td>
+</tr>
+<tr><td>Enter Author:</td> 
+<td><input type="text" name="author"/></td>
+</tr> 
+<tr><td>Enter Price:</td> 
+<td><input type="text" name="price"/></td>
+</tr>
+<tr><td>Enter Quantity:</td> 
+<td><input type="text" name="qty"/></td>
+</tr>
+<tr><td><input type="submit"/></td></tr>
+</table>
+</form>
+</body>
+</html>
+
+______________________________________________________________________________
+
+InsertData.java
+
+import java.util.*;
+import java.io.*;
+import java.sql.*;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+/**
+ * Servlet implementation class InsertData
+ */
+public class InsertData extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public InsertData() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		response.getWriter().append("Served at: ").append(request.getContextPath());
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		try{ 
+		    Class.forName("com.mysql.jdbc.Driver"); 
+		    Connection  con=DriverManager.getConnection("jdbc:mysql://localhost:3306/lib?characterEncoding=latin1","root","root"); 
+		    PreparedStatement st = con.prepareStatement("insert into book values(?, ?, ?, ?, ?)");
+		     st.setInt(1, Integer.valueOf(request.getParameter("accno")));
+		     st.setString(2, request.getParameter("title"));
+		     st.setString(3, request.getParameter("author"));
+		     st.setInt(4, Integer.valueOf(request.getParameter("price")));
+		     st.setInt(5, Integer.valueOf(request.getParameter("qty")));
+		     st.executeUpdate();
+		     st.close();
+		     con.close(); 
+		     PrintWriter out = response.getWriter();
+		     out.println("<html><body><b>Successfully Inserted"
+		     + "</b></body></html>");
+		}catch(Exception e){
+		      System.out.println(e);} 
+		}
+		}
+
+
+
+
+___________________________________________________________
+Search.html
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<form action="./DispData"> 
+Enter your Account Number:<input type="text" name="accno"/><br/> 
+<input type="submit" value="search"/> 
+</form> 
+</body>
+</html>
+
+__________________________________________________________
+
+import java.util.*;
+import java.sql.*;
+import java.io.*;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+/**
+ * Servlet implementation class DispData
+ */
+public class DispData extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public DispData() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    	// TODO Auto-generated method stub
+    	       response.setContentType("text/html"); 
+    	       PrintWriter out = response.getWriter(); 
+    	       try{ 
+    	          String rno=request.getParameter("accno"); 
+    	          int rn=Integer.valueOf(rno); 
+    	          Class.forName("com.mysql.jdbc.Driver"); 
+    	          Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/lib?characterEncoding=latin1","root","root"); 
+    	          PreparedStatement ps=con.prepareStatement("select * from book where accno=?"); 
+    	          ps.setInt(1,rn); 
+    	          out.print("<table width=50% border=1>"); 
+    	          out.print("<caption>Result:</caption>"); 
+    	          ResultSet rs=ps.executeQuery(); 
+    	         /* Printing column names */ 
+    	          ResultSetMetaData rsmd=rs.getMetaData(); 
+    	          int total=rsmd.getColumnCount(); 
+    	          out.print("<tr>"); 
+    	          for(int i=1;i<=total;i++) 
+    	          { 
+    	              out.print("<th>"+rsmd.getColumnName(i)+"</th>"); 
+    	          } 
+    	          out.print("<th>Status</th></tr>"); 
+    	         /* Printing result */ 
+    	         while(rs.next()) 
+    	         { 
+    	              out.print("<tr><td>"+rs.getInt(1)+"</td><td>"+rs.getString(2)+"</td><td>"+rs.getString(3)+ rs.getInt(4)+"</td><td>" + rs.getInt(5)+"</td><td>"); 
+    	
+    	         } 
+    	out.print("</table>"); 
+    	}catch (Exception e2) {e2.printStackTrace();} 
+    	finally{out.close();} 
+    	} 
+   
+
+
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
+
+}
+
+
