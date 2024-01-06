@@ -1,0 +1,106 @@
+LoginBean.java
+
+package labsheet_4;
+
+import java.lang.*;
+public class LoginBean {
+private String name,password; 
+public String getName() { 
+return name; 
+} 
+public void setName(String name) { 
+this.name = name; 
+} 
+public String getPassword() { 
+return password; 
+} 
+public void setPassword(String password) { 
+this.password = password; 
+} 
+public boolean validate(){ 
+if(password.equals("admin")){ 
+return true; 
+} 
+else{ 
+return false; 
+} 
+} 
+}
+
+_________________________
+
+ControllerServlet.java
+
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import labsheet_4.LoginBean;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+@WebServlet("/ControllerServlet")
+public class ControllerServlet extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+
+    public ControllerServlet() {
+        super();
+    }
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.getWriter().append("Served at: ").append(request.getContextPath());
+    }
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("text/html");
+        PrintWriter out = response.getWriter();
+        String name = request.getParameter("name");
+        String password = request.getParameter("password");
+        LoginBean bean = new LoginBean();
+        bean.setName(name);
+        bean.setPassword(password);
+        request.setAttribute("bean", bean);
+        boolean status = bean.validate();
+
+        if (status) {
+            RequestDispatcher rd = request.getRequestDispatcher("login-success.jsp");
+            rd.forward(request, response);
+        } else {
+            RequestDispatcher rd = request.getRequestDispatcher("login-error.jsp");
+            rd.forward(request, response);
+        }
+    }
+}
+
+_________________________
+
+index.jsp
+
+<form action="ControllerServlet" method="post"> 
+Name:<input type="text" name="name"><br> 
+Password:<input type="password" name="password"><br> 
+<input type="submit" value="login"> 
+</form> 
+________________
+
+login-error.jsp
+
+<p>Sorry! username or password error</p> 
+<%@ include file="index.jsp" %> 
+
+____________
+
+login-success.jsp
+
+<%@page import="labsheet_4.LoginBean"%> 
+<p>You are successfully logged in!</p> 
+<% 
+LoginBean bean=(LoginBean)request.getAttribute("bean"); 
+out.print("Welcome, "+bean.getName()); 
+%>
+
