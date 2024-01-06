@@ -1,0 +1,131 @@
+Insert.jsp
+
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<%@ page import="java.sql.*" %> 
+<%@ page import="java.io.*" %>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body bgcolor="#ffffcc">
+<font size="+3" color="green"><br>Welcome to Presidency University !</font>
+<FORM action="Insert.jsp" method="get">
+<TABLE style="background-color: #ECE5B6;" WIDTH="30%" >
+<TR>
+<TH width="50%">Book ID:</TH>
+<TD width="50%"><INPUT TYPE="text" NAME="bookid"></TD>
+</tr>
+<tr>
+<TH width="50%">Author:</TH>
+<TD width="50%"><INPUT TYPE="text" NAME="author"></TD>
+</tr>
+<tr>
+<TH width="50%">Quantity:</TH>
+<TD width="50%"><INPUT TYPE="text" NAME="quantity"></TD>
+</tr>
+<tr>
+<TH width="50%">Price:</TH>
+<TD width="50%"><INPUT TYPE="text" NAME="price"></TD>
+</tr>
+<tr>
+<TH width="50%">Edition:</TH>
+<TD width="50%"><INPUT TYPE="text" NAME="edition"></TD>
+</tr>
+<TR>
+<TH></TH>
+<TD width="50%"><INPUT TYPE="submit" VALUE="submit"></TD>
+</tr>
+</TABLE>
+<%
+int uq=0;
+try {
+Class.forName("com.mysql.jdbc.Driver"); 
+Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/lib2?characterEncoding=latin1","root","root");
+PreparedStatement pstatement = con.prepareStatement("INSERT INTO book VALUES(?, ?, ?, ?, ?)");
+pstatement.setInt(1, Integer.valueOf(request.getParameter("bookid")));
+pstatement.setString(2, request.getParameter("author"));
+pstatement.setInt(3, Integer.valueOf(request.getParameter("quantity")));
+pstatement.setInt(4, Integer.valueOf(request.getParameter("price")));
+pstatement.setString(5, request.getParameter("edition"));
+uq=pstatement.executeUpdate();
+pstatement.close();
+con.close();
+}
+catch(Exception ex) { 
+//out.println("Unable to connect to database.");
+}
+if (uq != 0) {
+%>
+<br>
+<TABLE style="background-color: #E3E4FA;" 
+WIDTH="30%" border="1">
+<tr><th>Data is inserted successfully in database.</th></tr>
+</table>
+<%
+} %> 
+</form> 
+</body>
+</html>
+
+
+
+___________
+
+Disp.jsp
+
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<%@ page import="java.sql.*" %>
+<%@ page import="java.io.*" %> 
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<h2>Library Details</h2>
+<%
+try {
+Class.forName("com.mysql.jdbc.Driver"); 
+Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/lib2?characterEncoding=latin1","root","root");
+Statement st = con.createStatement();
+ResultSet rs = st.executeQuery("select * from book");
+%>
+<TABLE cellpadding="15" border="1" style="background-color: #ffffcc;">
+<tr><th>bookid</th><th>author</th><th>quantity</th><th>price</th><th>edition</th><tr>
+<%
+while (rs.next()) {
+%>
+<TR>
+<TD><%=rs.getInt(1)%></TD>
+<TD><%=rs.getString(2)%></TD>
+<TD><%=rs.getInt(3)%></TD>
+<TD><%=rs.getInt(4)%></TD>
+<TD><%=rs.getString(5)%></TD>
+</TR>
+<% } %>
+<%
+// close all the connections.
+rs.close();
+st.close();
+con.close();
+} catch (Exception ex) {
+%>
+<font size="+3" color="red"></b>
+<%
+out.println("Unable to connect to database.");
+}
+%>
+</TABLE><TABLE>
+<TR>
+<TD><FORM ACTION="Disp.jsp" method="get" >
+<button type="submit"><-- back</button></TD>
+</TR>
+</TABLE>
+</font>
+</body>
+</html>
