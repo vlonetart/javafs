@@ -1,0 +1,150 @@
+new - project - maven project - next - maven-archetype-quickstart 1.1 - group id: com.pu, artifact id: mt2 - install jboss tools
+
+
+App.java
+
+package com.pu.mt2;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
+/**
+ * Hello world!
+ *
+ */
+public class App 
+{
+    public static void main( String[] args )
+    {
+       Product product = new Product();
+       product.setId(1);
+       product.setDesc("YSL");
+       product.setQuantity(100);
+       product.setPrice(13200);
+    	  //1. create Configuration object
+       Configuration configuration=new Configuration().configure().addAnnotatedClass(Product.class);
+       //2. create Session Factroy object 
+       SessionFactory sessionFactory=configuration.buildSessionFactory();
+       //3. Create Session object
+       Session session=sessionFactory.openSession();
+       //4. Begin your transaction
+       Transaction transaction=session.beginTransaction();
+       //5.Save your object to database
+       session.save(product);
+       //6/ Commit your transaction 
+       transaction.commit();
+       session.close();
+       sessionFactory.close();
+    }
+}
+
+
+____________
+
+
+Product.java
+
+package com.pu.mt2;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
+public class Product {
+	@Id
+	private int id;
+	private String desc;
+	private int quantity;
+	private int price;
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getDesc() {
+		return desc;
+	}
+	public void setDesc(String desc) {
+		this.desc = desc;
+	}
+	public int getQuantity() {
+		return quantity;
+	}
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+	public int getPrice() {
+		return price;
+	}
+	public void setPrice(int price) {
+		this.price = price;
+	}
+
+}
+
+__________
+
+AppTest.java
+package com.pu.mt2;
+
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
+
+/**
+ * Unit test for simple App.
+ */
+public class AppTest 
+    extends TestCase
+{
+    /**
+     * Create the test case
+     *
+     * @param testName name of the test case
+     */
+    public AppTest( String testName )
+    {
+        super( testName );
+    }
+
+    /**
+     * @return the suite of tests being tested
+     */
+    public static Test suite()
+    {
+        return new TestSuite( AppTest.class );
+    }
+
+    /**
+     * Rigourous Test :-)
+     */
+    public void testApp()
+    {
+        assertTrue( true );
+    }
+}
+
+
+
+___________________
+
+
+hibernate.cfg.xml
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+ 
+<hibernate-configuration>
+<session-factory>
+<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/product?characterEncoding=latin1</property>
+<property name="hibernate.connection.username">root</property>
+<property name="hibernate.connection.password">root</property>
+<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+<property name="show_sql">true</property>
+<property name="format_sql">true</property>
+<property name="hbm2ddl.auto">update </property>
+</session-factory>
+</hibernate-configuration>
