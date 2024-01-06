@@ -1,0 +1,9 @@
+seta1 - hibernate with database product
+seta2jsp - library db with jsp
+seta2servlet - library db with servlet
+
+setb1 - 
+setb2 - 
+
+setc1 - cricketer with jsp
+setc2 - 
