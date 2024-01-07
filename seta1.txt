@@ -1,6 +1,6 @@
 new - project - maven project - next - maven-archetype-quickstart 1.1 - group id: com.pu, artifact id: mt2 - install jboss tools
 src/main/java/hibernate.cfg.xml
-create database product;
+create database prod;
 create table product(id int, descriptionription varchar(50), quantity int, price int);
 
 App.java
@@ -21,9 +21,9 @@ public class App
     {
        Product product = new Product();
        product.setId(1);
-       product.setDesc("YSL");
-       product.setQuantity(100);
-       product.setPrice(13200);
+       product.setDescr("ABC");
+       product.setQuantity(1000);
+       product.setPrice(15000000);
     	  //1. create Configuration object
        Configuration configuration=new Configuration().configure().addAnnotatedClass(Product.class);
        //2. create Session Factroy object 
@@ -41,7 +41,6 @@ public class App
     }
 }
 
-
 ____________
 
 
@@ -55,7 +54,7 @@ import javax.persistence.Id;
 public class Product {
 	@Id
 	private int id;
-	private String description;
+	private String descr;
 	private int quantity;
 	private int price;
 	public int getId() {
@@ -64,11 +63,11 @@ public class Product {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getDesc() {
-		return description;
+	public String getDescr() {
+		return descr;
 	}
-	public void setDesc(String description) {
-		this.description = description;
+	public void setDescr(String descr) {
+		this.descr = descr;
 	}
 	public int getQuantity() {
 		return quantity;
@@ -84,7 +83,6 @@ public class Product {
 	}
 
 }
-
 __________
 
 AppTest.java
@@ -133,6 +131,7 @@ ___________________
 
 
 hibernate.cfg.xml
+
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE hibernate-configuration PUBLIC
 "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
@@ -141,7 +140,7 @@ hibernate.cfg.xml
 <hibernate-configuration>
 <session-factory>
 <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/product?characterEncoding=latin1</property>
+<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/prod?characterEncoding=latin1</property>
 <property name="hibernate.connection.username">root</property>
 <property name="hibernate.connection.password">root</property>
 <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
@@ -150,7 +149,6 @@ hibernate.cfg.xml
 <property name="hbm2ddl.auto">update </property>
 </session-factory>
 </hibernate-configuration>
-
 ______________
 pom.xml
 
