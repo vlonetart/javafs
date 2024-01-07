@@ -1,7 +1,8 @@
 new - dynamic web project - SpringMVC - package 'com.pu' under src
 https://static.javatpoint.com/src/sp/springjars.zip
+put all jar files in WEB-INF/lib folder
 
-HelloController.java
+HelloController.java - under com.pu package
 package com.pu;  
 import org.springframework.stereotype.Controller;  
 import org.springframework.web.bind.annotation.RequestMapping;  
@@ -18,7 +19,7 @@ public class HelloController {
 _____
 
 
-spring-servlet.xml
+spring-servlet.xml - under WEB-INF folder
 
 <?xml version="1.0" encoding="UTF-8"?>  
 <beans xmlns="http://www.springframework.org/schema/beans"  
@@ -43,7 +44,7 @@ spring-servlet.xml
 
 ___________________
 
-web.xml
+web.xml - under WEB-INF folder
 
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
@@ -61,11 +62,11 @@ web.xml
 
 _____________________
 
-index.jsp
+index.jsp - webcontent folder
 
 <html>  
 <body>  
-<p>Welcome to Spring MVC Tutorial</p>  
+<p>Hello World</p>  
 </body>  
 </html>  
 
