@@ -21,7 +21,7 @@ public class App
     {
        Product product = new Product();
        product.setId(1);
-       product.setdescription("YSL");
+       product.setDesc("YSL");
        product.setQuantity(100);
        product.setPrice(13200);
     	  //1. create Configuration object
