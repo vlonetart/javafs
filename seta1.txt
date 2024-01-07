@@ -1,5 +1,7 @@
 new - project - maven project - next - maven-archetype-quickstart 1.1 - group id: com.pu, artifact id: mt2 - install jboss tools
 src/main/java/hibernate.cfg.xml
+create database product;
+create table product(id int, descriptionription varchar(50), quantity int, price int);
 
 App.java
 
@@ -19,7 +21,7 @@ public class App
     {
        Product product = new Product();
        product.setId(1);
-       product.setDesc("YSL");
+       product.setdescription("YSL");
        product.setQuantity(100);
        product.setPrice(13200);
     	  //1. create Configuration object
@@ -53,7 +55,7 @@ import javax.persistence.Id;
 public class Product {
 	@Id
 	private int id;
-	private String desc;
+	private String description;
 	private int quantity;
 	private int price;
 	public int getId() {
@@ -63,10 +65,10 @@ public class Product {
 		this.id = id;
 	}
 	public String getDesc() {
-		return desc;
+		return description;
 	}
-	public void setDesc(String desc) {
-		this.desc = desc;
+	public void setdescription(String description) {
+		this.description = description;
 	}
 	public int getQuantity() {
 		return quantity;
