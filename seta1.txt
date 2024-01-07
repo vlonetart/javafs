@@ -1,7 +1,7 @@
 new - project - maven project - next - maven-archetype-quickstart 1.1 - group id: com.pu, artifact id: mt2 - install jboss tools
 src/main/java/hibernate.cfg.xml
 create database prod;
-create table product(id int, descriptionription varchar(50), quantity int, price int);
+create table product(id int, description varchar(50), quantity int, price int);
 
 App.java
 
